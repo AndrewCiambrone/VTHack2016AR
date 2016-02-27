@@ -244,13 +244,13 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
         {
             if ((wordBox.yMax - textBoxOffsetTop) * scale > textBox.height)
                 break;
-            GUI.Label(wordBox, wordDict(word.Word.StringValue.ToUpper()), mWordStyle);
+            
             //wordBox.x = Screen.width * 3 / 4;
 
             wordBox.x = Screen.width / 4;
-            GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
+            GUI.Label(wordBox, wordDict(word.Word.StringValue.ToUpper()), mWordStyle);
             wordBox.x = -1 * Screen.width / 6;
-            GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
+            GUI.Label(wordBox, wordDict(word.Word.StringValue.ToUpper()), mWordStyle);
             //GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
             wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
         }
@@ -502,7 +502,8 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
             {"ART", "Arte" },
             {"MUSEUM",  "MUSEO"},
             {"BATHROOM", "BAÑO" },
-            {"FRIEND", "AMIGO" }
+            {"FRIEND", "AMIGO" },
+            {"HI", "Hola"  }
         };
     }
 
