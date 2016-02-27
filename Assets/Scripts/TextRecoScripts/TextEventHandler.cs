@@ -238,18 +238,16 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
         GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), new Vector2(Screen.width * 0.5f, textBoxOffsetTop));
 
         wordBox.y += wordBox.height*mWordPadding;
-        wordBox.x = Screen.width / 4;
         foreach (var word in sortedWords)
         {
             if ((wordBox.yMax - textBoxOffsetTop) * scale > textBox.height)
                 break;
+            wordBox.x = Screen.width / 4;
             GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
-            //wordBox.x = Screen.width * 3 / 4;
+            wordBox.x = -1 * Screen.width / 6;
+            GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
             //GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
             wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
-            if (word.Word.StringValue.Equals("Museum")) {
-                print("yaaaay");
-            }
         }
 
         GUI.matrix = oldMatrix;
