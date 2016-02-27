@@ -20,7 +20,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
 
     // Size of text search area in percentage of screen
     private float mLoupeWidth = 0.9f;
-    private float mLoupeHeight = 0.15f;
+    private float mLoupeHeight = 0.5f;
     // Alpha value for area outside of text search
     private float mBackgroundAlpha = 0.7f;
     // Size of text box for visualizing detected words in percentage of remaining screen outside text search area
