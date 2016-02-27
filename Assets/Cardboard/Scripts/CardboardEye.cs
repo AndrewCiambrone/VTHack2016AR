@@ -212,6 +212,11 @@ public class CardboardEye : MonoBehaviour {
     if (controller.directRender) {
       // Redirect to our stereo screen.
       camera.targetTexture = controller.StereoScreen;
+      using(var buildVersion = new AndroidJavaClass("android.os.Build$VERSION")) {
+          if (buildVersion.GetStatic<int>("SDK_INT") == 23) {
+              camera.transform.localScale = new Vector3(-1,-1,1);
+          }
+      }
       // Draw!
       camera.Render();
     } else {

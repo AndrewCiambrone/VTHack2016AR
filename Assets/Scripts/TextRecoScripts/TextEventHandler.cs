@@ -33,7 +33,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
     // Minimum line height for word list
     private float mMinLineHeight = 15.0f;
     // Line width of viusalized boxes around detected words
-    private float mBBoxLineWidth = 3.0f;
+    private float mBBoxLineWidth = 30.0f;
     // Padding between detected words and visualized boxes
     private float mBBoxPadding = 0.0f;
     // Color of visualized boxes around detected words
@@ -67,6 +67,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
         // create the texture for bounding boxes
         mBoundingBoxTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
         mBoundingBoxTexture.SetPixel(0, 0, mBBoxColor);
+        mBoundingBoxTexture.wrapMode = TextureWrapMode.Repeat; 
         mBoundingBoxTexture.Apply(false);
 
         mBoundingBoxMaterial = new Material(boundingBoxMaterial);
@@ -237,12 +238,18 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
         GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), new Vector2(Screen.width * 0.5f, textBoxOffsetTop));
 
         wordBox.y += wordBox.height*mWordPadding;
+        wordBox.x = Screen.width / 4;
         foreach (var word in sortedWords)
         {
             if ((wordBox.yMax - textBoxOffsetTop) * scale > textBox.height)
                 break;
             GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
+            //wordBox.x = Screen.width * 3 / 4;
+            //GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
             wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
+            if (word.Word.StringValue.Equals("Museum")) {
+                print("yaaaay");
+            }
         }
 
         GUI.matrix = oldMatrix;
@@ -299,6 +306,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
 
         mBoundingBoxMaterial.SetPass(0);
         Graphics.DrawMeshNow(mesh, Matrix4x4.identity);
+        //Graphics.DrawMesh(mesh, Matrix4x4.identity);
         Destroy(mesh);
     }
 
