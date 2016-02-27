@@ -76,5 +76,6 @@ public class CardboardHead : MonoBehaviour {
         transform.position = target.position + target.rotation * pos;
       }
     }
+    Vuforia.VuforiaBehaviour.Instance.UpdateState(false, true);
   }
 }

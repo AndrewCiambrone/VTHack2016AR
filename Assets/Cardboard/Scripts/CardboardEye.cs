@@ -141,8 +141,10 @@ public class CardboardEye : MonoBehaviour {
       camera.fieldOfView = 2 * Mathf.Atan(1 / proj[1, 1]) * Mathf.Rad2Deg;
     }
 
+    Vuforia.VuforiaBehaviour.Instance.ApplyCorrectedProjectionMatrix(proj, eye == Cardboard.Eye.Left);
     // Set up variables for an image effect that will do distortion correction, e.g. the
     // RadialDistortionEffect.  Note that native distortion correction should take precedence
+    
     // over an image effect, so if that is active then we don't need to compute these variables.
     // (Exception: we're in the editor, so we use the image effect to preview the distortion
     // correction, because native distortion correction only works on the phone.)

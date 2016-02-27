@@ -19,9 +19,7 @@ public class AndroidVRDevice : VRDevice {
   private AndroidJavaObject activityListener;
 
   public override void Init() {
-#if UNITY_5
     debugDisableNativeDistortion = true;
-#endif
     base.Init();
     ConnectToActivity();
   }
