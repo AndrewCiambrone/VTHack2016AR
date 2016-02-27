@@ -240,22 +240,77 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
         GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), new Vector2(Screen.width * 0.5f, textBoxOffsetTop));
 
         wordBox.y += wordBox.height*mWordPadding;
+        string words = "";
         foreach (var word in sortedWords)
         {
-            if ((wordBox.yMax - textBoxOffsetTop) * scale > textBox.height)
-                break;
-            
+            //if ((wordBox.yMax - textBoxOffsetTop) * scale > textBox.height)
+            //    break;
+
             //wordBox.x = Screen.width * 3 / 4;
 
-            wordBox.x = Screen.width / 4;
-            GUI.Label(wordBox, wordDict(word.Word.StringValue.ToLower()), mWordStyle);
-            wordBox.x = -1 * Screen.width / 6;
-            GUI.Label(wordBox, wordDict(word.Word.StringValue.ToLower()), mWordStyle);
+            //wordBox.x = Screen.width / 4;
+            //GUI.Label(wordBox, wordDict(word.Word.StringValue.ToLower()), mWordStyle);
+            //wordBox.x = -1 * Screen.width / 6;
+            //GUI.Label(wordBox, wordDict(word.Word.StringValue.ToLower()), mWordStyle);
             //GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
-            wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
+            //wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
+            words = words + wordDict(word.Word.StringValue.ToLower());
         }
-
+        GUI.Label(wordBox, wrapString(words, Screen.width), mWordStyle);
         GUI.matrix = oldMatrix;
+    }
+
+    string wrapString(string msg, int width)
+    {
+        string[] words = msg.Split(" "[0]);
+        string retVal = ""; //returning string 
+        string NLstr = "";  //leftover string on new line
+        for (int index = 0; index < words.Length; index++)
+        {
+            string word = words[index].Trim();
+            //if word exceeds width
+            if (words[index].Length >= width + 2)
+            {
+                string[] temp = new string[5];
+                int i = 0;
+                while (words[index].Length > width)
+                { //word exceeds width, cut it at widrh
+                    temp[i] = words[index].Substring(0, width) + "\n"; //cut the word at width
+                    words[index] = words[index].Substring(width);     //keep remaining word
+                    i++;
+                    if (words[index].Length <= width)
+                    { //the balance is smaller than width
+                        temp[i] = words[index];
+                        NLstr = temp[i];
+                    }
+                }
+                retVal += "\n";
+                for (int x = 0; x < i + 1; x++)
+                { //loops through temp array
+                    retVal = retVal + temp[x];
+                }
+            }
+            else if (index == 0)
+            {
+                retVal = words[0];
+                NLstr = retVal;
+            }
+            else if (index > 0)
+            {
+                if (NLstr.Length + words[index].Length <= width)
+                {
+                    retVal = retVal + " " + words[index];
+                    NLstr = NLstr + " " + words[index]; //add the current line length
+                }
+                else if (NLstr.Length + words[index].Length > width)
+                {
+                    retVal = retVal + "\n" + words[index];
+                    NLstr = words[index]; //reset the line length
+                    print("newline! at word " + words[index]);
+                }
+            }
+        }
+        return retVal;
     }
 
     private void DrawMaskedRectangle(Rect rectangle)
@@ -582,7 +637,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
             {"its", "sus"},
             {"over", "encima"},
             {"think", "pensar"},
-            /*{"also", "además"},
+            {"also", "además"},
             {"back", "espalda"},
             {"after", "después"},
             {"use", "utilizar"},
@@ -594,7 +649,6 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
             {"well", "bien"},
             {"way", "camino"},
             {"even", "incluso"},
-            {"new", "nuevo"},
             {"want", "querer"},
             {"because", "porque"},
             {"any", "alguna"},
@@ -602,7 +656,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
             {"give", "dar"},
             {"day", "día"},
             {"most", "más"},
-            {"us", "nos"}*/
+            {"us", "nos"}
         };
     }
 
