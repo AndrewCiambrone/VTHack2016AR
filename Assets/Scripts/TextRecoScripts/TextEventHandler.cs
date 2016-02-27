@@ -73,6 +73,8 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
         mBoundingBoxMaterial = new Material(boundingBoxMaterial);
         mBoundingBoxMaterial.SetTexture("_MainTex", mBoundingBoxTexture);
 
+        initDict();
+
         mWordStyle = new GUIStyle();
         mWordStyle.normal.textColor = Color.white;
         mWordStyle.alignment = TextAnchor.UpperCenter;
@@ -198,23 +200,23 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
     private void DrawWordBoundingBoxes()
     {
         // render a quad around each currently tracked word
-        foreach (var word in mSortedWords)
-        {
-            var pos = word.Position;
-            var orientation = word.Orientation;
-            var size = word.Word.Size;
-            var pose = Matrix4x4.TRS(pos, orientation, new Vector3(size.x, 1, size.y));
+        //foreach (var word in mSortedWords)
+        //{
+         //   var pos = word.Position;
+          //  var orientation = word.Orientation;
+          //  var size = word.Word.Size;
+          //  var pose = Matrix4x4.TRS(pos, orientation, new Vector3(size.x, 1, size.y));
 
-            var cornersObject = new[]
-                {
-                    new Vector3(-0.5f, 0.0f, -0.5f), new Vector3(0.5f, 0.0f, -0.5f),
-                    new Vector3(0.5f, 0.0f, 0.5f), new Vector3(-0.5f, 0.0f, 0.5f)
-                };
-            var corners = new Vector2[cornersObject.Length];
-            for (int i = 0; i < cornersObject.Length; i++)
-                corners[i] = Camera.current.WorldToScreenPoint(pose.MultiplyPoint(cornersObject[i]));
-            DrawBoundingBox(corners);
-        }
+          //  var cornersObject = new[]
+           //     {
+          //          new Vector3(-0.5f, 0.0f, -0.5f), new Vector3(0.5f, 0.0f, -0.5f),
+          //          new Vector3(0.5f, 0.0f, 0.5f), new Vector3(-0.5f, 0.0f, 0.5f)
+          //      };
+           // var corners = new Vector2[cornersObject.Length];
+          //  for (int i = 0; i < cornersObject.Length; i++)
+           //     corners[i] = Camera.current.WorldToScreenPoint(pose.MultiplyPoint(cornersObject[i]));
+          //  DrawBoundingBox(corners);
+       // }
     }
 
     /// <summary>
@@ -243,7 +245,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
         {
             if ((wordBox.yMax - textBoxOffsetTop) * scale > textBox.height)
                 break;
-            GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
+            GUI.Label(wordBox, wordDict(word.Word.StringValue.ToUpper()), mWordStyle);
             //wordBox.x = Screen.width * 3 / 4;
             //GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
             wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
@@ -486,6 +488,29 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
         var leftOffset = (Screen.width - loupeWidth) * 0.5f;
         var topOffset = leftOffset;
         mDetectionAndTrackingRect = new Rect(leftOffset, topOffset, loupeWidth, loupeHeight);
+    }
+
+    Dictionary<string, string> words;
+
+    private void initDict()
+    {
+        words = new Dictionary<string, string>()
+        {
+            {"NEW",  "Nueva"},
+            {"YORK", "York" },
+            {"ART", "Arte" },
+            {"MUSEUM",  "MUSEO"},
+            {"BATHROOM", "BAÑO" },
+            {"FRIEND", "AMIGO" }
+        };
+    }
+
+    private string wordDict(string word)
+    {
+        if (words.ContainsKey(word))
+            return words[word];
+        else
+            return word.ToLower() + "o";
     }
 
     
