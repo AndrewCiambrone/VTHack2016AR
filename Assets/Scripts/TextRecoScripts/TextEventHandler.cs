@@ -239,7 +239,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
 
         GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), new Vector2(Screen.width * 0.5f, textBoxOffsetTop));
 
-        wordBox.y += wordBox.height*mWordPadding;
+        wordBox.y += wordBox.height * mWordPadding;
         string words = "";
         foreach (var word in sortedWords)
         {
@@ -254,9 +254,10 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
             //GUI.Label(wordBox, wordDict(word.Word.StringValue.ToLower()), mWordStyle);
             //GUI.Label(wordBox, word.Word.StringValue, mWordStyle);
             //wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
-            words = words + wordDict(word.Word.StringValue.ToLower());
+            words = words + " " + wordDict(word.Word.StringValue.ToLower());
         }
-        GUI.Label(wordBox, wrapString(words, Screen.width), mWordStyle);
+        wordBox.x = Screen.width / 4;
+        GUI.Label(wordBox, wrapString(words, Screen.width / 2), mWordStyle);
         GUI.matrix = oldMatrix;
     }
 
