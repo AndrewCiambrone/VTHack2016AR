@@ -582,7 +582,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
             {"its", "sus"},
             {"over", "encima"},
             {"think", "pensar"},
-            {"also", "además"},
+            /*{"also", "además"},
             {"back", "espalda"},
             {"after", "después"},
             {"use", "utilizar"},
@@ -602,7 +602,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
             {"give", "dar"},
             {"day", "día"},
             {"most", "más"},
-            {"us", "nos"}
+            {"us", "nos"}*/
         };
     }
 
