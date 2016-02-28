@@ -22,7 +22,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
     private float mLoupeWidth = 0.9f;
     private float mLoupeHeight = 0.5f;
     // Alpha value for area outside of text search
-    private float mBackgroundAlpha = 0.7f;
+    private float mBackgroundAlpha = 0.5f;
     // Size of text box for visualizing detected words in percentage of remaining screen outside text search area
     private float mTextboxWidth = 0.9f;
     private float mTextboxHeight = 0.95f;
@@ -77,7 +77,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
 
         mWordStyle = new GUIStyle();
         mWordStyle.normal.textColor = Color.white;
-        mWordStyle.alignment = TextAnchor.UpperCenter;
+        mWordStyle.alignment = TextAnchor.UpperLeft;
         mWordStyle.font = Resources.Load("SourceSansPro-Regular_big") as Font;
 
         mIsTablet = IsTablet();
@@ -237,7 +237,7 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
 
         var oldMatrix = GUI.matrix;
 
-        GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), new Vector2(Screen.width * 0.5f, textBoxOffsetTop));
+        //GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), new Vector2(Screen.width * 0.5f, textBoxOffsetTop));
 
         wordBox.y += wordBox.height * mWordPadding;
         string words = "";
@@ -256,8 +256,11 @@ public class TextEventHandler : MonoBehaviour, ITextRecoEventHandler, IVideoBack
             //wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
             words = words + " " + wordDict(word.Word.StringValue.ToLower());
         }
-        wordBox.x = Screen.width / 4;
-        GUI.Label(wordBox, wrapString(words, Screen.width / 2), mWordStyle);
+        wordBox.y += (wordBox.height + wordBox.height * mWordPadding);
+        wordBox.x = 90;
+        GUI.Label(wordBox, wrapString(words, (Screen.width / 2) - 90), mWordStyle);
+        wordBox.x = Screen.width / 2 + 90;
+        GUI.Label(wordBox, wrapString(words, (Screen.width / 2) - 90), mWordStyle);
         GUI.matrix = oldMatrix;
     }
 
